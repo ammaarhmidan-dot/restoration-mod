@@ -6,7 +6,7 @@ local so_action_fix = {
 
 return {
 	-- reinforce once you enter the prison 
-	[101852] = {
+	[100178] = {
 		reinforce = {
 			{
 				name = "entrance", 
@@ -58,6 +58,12 @@ return {
 	[101718] = {
 		on_executed = {
 			{ id = 400013, delay = 0 }
+		}
+	},
+	-- Escape Defenders 
+	[100634] = {
+		on_executed = {
+			{ id = 400031, delay = 0}
 		}
 	},
 }
