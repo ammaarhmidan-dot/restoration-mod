@@ -119,7 +119,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"road",
 					"legacy",
 					"x_legacy",
-					"fmg9"
+					"fmg9",
+					"flun"
 				}
 			},
 		l18 = {
@@ -173,7 +174,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"cs",
 					"brick",
 					"ostry",
-					"r700"
+					"r700",
+					"laser_watch"
 				}
 			},
 		l24 = {
@@ -204,7 +206,9 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"ching",
 					"erma",
 					"sap",
-					"funder_strike"
+					"funder_strike",
+					"bonk",
+					"bonk2"
 				}
 			},
 		l27 = {
@@ -238,7 +242,11 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"holt",
 					"x_holt",
 					"x_korth",
-					"welrod"
+					"welrod",
+					"pmm",
+					"x_pmm",
+					"speen",
+					"dart"
 				}
 			},
 		l32 = {
@@ -501,56 +509,56 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.body_armor.movement = { --*increments of 0.03
 		1,
 		0.97,
-		0.91, --2 increments
+		0.91, -- 2 increments
 		0.88,
-		0.76, --4 increments
-		0.745, --0.5 increments
-		0.7 --1.5 increments
+		0.73, -- 5 increments
+		0.7,
+		0.61 -- 3 increments
 	}
 	self.values.player.body_armor.dodge = { --*increments of 0.1
-		0.2,
-		0.1,
-		0.05, --half increment
+		0.15,
+		0.10, -- half increment
+		0.05, -- half increment
 		-0.05,
 		-0.15,
-		-0.2, --half increment
+		-0.2, -- half increment
 		-0.3
 	}
 	self.values.player.body_armor.concealment = { --*increments of 2
 		30,
-		26, --2 increments
+		26, -- 2 increments
 		24,
 		22,
-		16,	--3 increments
-		8, --4 increments
-		4 --2 increments
+		16,	-- 3 increments
+		8, -- 4 increments
+		4 -- 2 increments
 	}
 	self.values.player.body_armor.damage_shake = { --*increments of 0.1
 		1.0,
 		0.9,
-		0.7, --2 increments
-		0.6,
+		0.7, -- 2 increments
+		0.5, -- 2 increments
 		0.4,
 		0.3,
 		0.1
 	}
-	self.values.player.body_armor.stamina = { --increments of 0.025
+	self.values.player.body_armor.stamina = { --*increments of 0.0125
 		1,
-		0.975,
+		0.975, -- 2 increments
+		0.9625,
 		0.95,
-		0.925,
-		0.875,
-		0.85,
-		0.8
+		0.925, -- 2 increments
+		0.9, -- 2 increments
+		0.875 -- 2 increments
 	}
 	self.values.player.body_armor.skill_ammo_mul = { --repurposed to pick up mult
-		0.875,
-		0.95,
-		1.00,
-		1.05,
-		1.075,
-		1.125,
-		1.15
+		0.9, --Suit
+		0.95, --LBV
+		1.00, --BV
+		1.075, --HBV
+		1.075, --FJ
+		1.125, --CTV
+		1.125 --ICTV
 	}
 	self.values.player.armor_pickup_mul = {true}
 	self.max_deflection = 0.60
@@ -559,18 +567,18 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.05,
 		0.10,
 		0.15,
-		0.25,
-		0.20,
-		0.15
+		0.25, -- 2 increments
+		0.20, -- -1 increment
+		0.10 -- -2 increments
 	}
 	self.values.player.body_armor.regen_delay = { --*increments of 0.25
-		2.75,
 		3.00,
 		3.25,
 		3.50,
 		3.75,
-		4.00,
-		4.25
+		4.50, -- 3 increments
+		4.75,
+		5.25 -- 2 increments
 	}
 
 	self.values.rep_upgrades.values = {0}
@@ -674,7 +682,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 	--Sentry Guns
 	self.sentry_gun_base_armor = 15
-	self.sentry_gun_base_ammo = 140
+	self.sentry_gun_base_ammo = 150
+	self.sentry_gun_ammo_cost = {
+		0.35,
+		0.25,
+		0.25 --unused
+	}
 
 	--"Baked In" upgrades
 	self.values.cable_tie.interact_speed_multiplier = {0.25}
@@ -976,7 +989,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						{
 							10, --stack limit
 							0.05, --dmg mult add
-							4 --time
+							5 --time
 						}
 					}
 				--Unused
@@ -1024,6 +1037,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				
 			--Underdog
+					self.values.shotgun.object_damage_bonus = {1.35, 2.00}
 				--Basic
 					self.values.temporary.dmg_multiplier_outnumbered = {{1.1, 7}}
 				--Ace
@@ -1032,8 +1046,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.skill_descs.shotgun_impact = {
 						skill_value_b1 = tostring(self.values.temporary.dmg_multiplier_outnumbered[1][1] % 1 * 100).."%", -- Damage buff when surrounded
 						skill_value_b2 = tostring(self.values.temporary.dmg_multiplier_outnumbered[1][2]), -- Duration of damage buff
+						skill_value_b3 = tostring(self.values.shotgun.object_damage_bonus[1] % 1 * 100) .. "%", -- shotgun object damage increase
 						skill_value_p1 = tostring((1 - self.values.temporary.dmg_dampener_outnumbered[1][1]) % 1 * 100).."%", -- DR when surrounded
-						skill_value_p2 = tostring(self.values.temporary.dmg_dampener_outnumbered[1][2]) -- Duration of DR
+						skill_value_p2 = tostring(self.values.temporary.dmg_dampener_outnumbered[1][2]), -- Duration of DR
+						skill_value_p3 = tostring((self.values.shotgun.object_damage_bonus[2] - self.values.shotgun.object_damage_bonus[1]) % 1 * 100) .. "%" -- shotgun object damage increase
 					}
 				
 			--Far Away / Pigeon Shooter
@@ -1131,7 +1147,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Bullseye
 				self.values.player.headshot_regen_armor_bonus = {
 					0.1, --Basic
-					0.3 --Ace
+					0.25 --Ace
 				}
 				self.values.player.headshot_regen_armor_bonus_cd_reduction = {
 					0.5, --Basic
@@ -1150,18 +1166,39 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Iron Man
 				--Basic
 					--Unlock ICTV
+					self.values.player.level_1_armor_regen_timer_mult = {0.9, 0.8}
+					self.values.player.level_2_armor_regen_timer_mult = {0.9, 0.8}
+					self.values.player.level_3_armor_regen_timer_mult = {0.9, 0.8}
+					self.values.player.level_4_armor_regen_timer_mult = {0.9, 0.8}
+					self.values.player.level_5_armor_regen_timer_mult = {0.9, 0.8}
+					self.values.player.level_6_armor_regen_timer_mult = {0.9, 0.8}
 					self.values.player.shield_knock = {true}
-				--Ace						
+				--Ace				
+					self.values.player.level_7_armor_regen_timer_mult = {0.8, 0.8}
+					self.values.player.level_7_armor_deflection_addend = {0.05}
+					self.values.player.level_7_armor_movement_speed_addend = {0.06}
 					self.values.player.bullet_shield_knock = {true}
 					self.values.player.shield_knock_bullet = {
 						max_damage = 200,
 						chance = 0.8
-					}						
+					}
+
+				--Unused
+					self.values.player.armor_regen_timer_multiplier_tier = {
+						0.90, --Basic
+						0.80 --Ace
+					}
 					self.values.player.armor_regen_timer_multiplier = {0.85}
 					
-					self.skill_descs.juggernaut = {
-						skill_value_p1 = tostring((1 - self.values.player.armor_regen_timer_multiplier[1]) * 100).."%" -- Faster armor recovery
-					}
+				self.skill_descs.juggernaut = {
+					--skill_value_b1 = tostring((1 - self.values.player.armor_regen_timer_multiplier_tier[1]) * 100).."%", -- Armor recovery
+					--skill_value_p1 = tostring((self.values.player.armor_regen_timer_multiplier_tier[1] - self.values.player.armor_regen_timer_multiplier_tier[2]) * 100).."%" -- More armor recovery
+					skill_value_b1 = tostring((1 - self.values.player.level_1_armor_regen_timer_mult[1]) * 100).."%", -- Armor recovery
+					skill_value_p1 = tostring((self.values.player.level_1_armor_regen_timer_mult[1] - self.values.player.level_1_armor_regen_timer_mult[2]) * 100).."%", -- More armor recovery
+					skill_value_p2 = tostring((1 - self.values.player.level_7_armor_regen_timer_mult[1]) * 100).."%", -- ICTV armor recovery speed
+					skill_value_p3 = tostring(self.values.player.level_7_armor_deflection_addend[1] * 100).."%", -- ICTV armor deflection
+					skill_value_p4 = tostring(self.values.player.level_7_armor_movement_speed_addend[1] * 100).."%", -- ICTV armor movement speed
+				}
 			
 		--Support--
 			--Scavenger
@@ -1265,7 +1302,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					
 				self.skill_descs.defense_up = {
 					skill_value_b1 = tostring((1 - self.values.player.deploy_interact_faster[1]) % 1 * 100).."%", -- increase interaciton speed with deployables
-					skill_value_p1 = tostring((1 - self.values.player.deploy_interact_faster[2]) % 1 * 100).."%",
+					skill_value_p1 = tostring((self.values.player.deploy_interact_faster[2] - self.values.player.deploy_interact_faster[1]) % 1 * 100).."%",
 					skill_value_p2 = tostring(self.values.team.deploy_interact_faster[1] * 100).."%" -- interaction speed bonus for teammates
 				}
 				
@@ -1322,23 +1359,21 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Ace
 						self.values.player.armor_full_damage_absorb = {
 							{
-								0.15, -- % of armor as DA
+								0.10, -- % of armor as DA
 								0.75, -- Armor thereshold to recieve DA
-								5.0 --Armor cap for DA 
+								5.0 -- Armor cap for DA 
 							}
 						}
 						self.values.player.scaling_armor_break_grace = {
 							{
-								grace_mod = 0.25, --seconds of damage grace for every armor step
-								armor_steps = 10 --1 step for every 100 base armor
+								grace_mod = 0.125, --seconds of damage grace for every armor step
+								armor_steps = 5 --1 step for every 50 base armor
 							}
 						}
-						self.values.player.armor_regen_timer_multiplier_tier = {0.90}
 						
 						self.skill_descs.tower_defense = {
 							skill_value_b1 = tostring(self.values.player.level_5_armor_addend[1]*10), -- +armor for Flak and CTV; unused
 							skill_value_p1 = tostring(self.values.player.armor_full_damage_absorb[1][1] * 100).."%", -- DA when armor is above threshold
-							skill_value_p2 = tostring((1 - self.values.player.armor_regen_timer_multiplier_tier[1]) * 100).."%", -- Armor recovery buff
 							skill_value_p3 = tostring(self.values.player.scaling_armor_break_grace[1].grace_mod),
 							skill_value_p4 = tostring(self.values.player.scaling_armor_break_grace[1].armor_steps * 10),
 							skill_value_p5 = tostring((1 - self.values.player.armor_full_damage_absorb[1][2]) * 100).."%", -- DA threshold
@@ -1641,7 +1676,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Evasion
 				self.values.player.movement_speed_multiplier = {
 					1.05, --Basic
-					1.1 --Unused
+					1.05 --Unused
 				}
 				--Basic
 					self.values.player.fall_damage_multiplier = {0.25}
@@ -1674,6 +1709,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Moving Target
 				--Basic
 				self.values.player.steelsight_move_speed_multiplier = {0.35} --Movement speed penalty reduction while ADSing.
+				self.values.player.zipline_dodge_chance = {0.8}
 				
 				self.values.player.detection_risk_add_movement_speed = {
 					{ --Basic
@@ -1681,19 +1717,19 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						2,
 						"below",
 						30,
-						0.20
+						0.15
 					},
 					{ --Ace
 						0.02,
 						1,
 						"below",
 						30,
-						0.20
+						0.15
 					}
 				}
 				--Ace
 				self.values.player.run_dodge_chance = {0.2}
-				self.values.player.zipline_dodge_chance = {0.6}
+				--Also gets universal sprint and shoot
 				
 				self.skill_descs.dire_need = {
 					skill_value_b1 = tostring(self.values.player.detection_risk_add_movement_speed[1][1] * 100).."%", -- movement speed per concealment
@@ -1712,8 +1748,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Shockproof
 				--Basic
 					self.values.player.taser_malfunction = {{
-							interval = 0.5,
-							chance_to_trigger = 0.3
+						interval = 0.5,
+						chance_to_trigger = 0.3
 					}}
 					self.values.player.knockback_resistance = {0.7}
 				--Ace
@@ -1725,8 +1761,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						2
 					}
 					self.values.player.slowing_bullet_resistance = {{
-							duration = 0.5,
-							power = 0.5
+						duration = 0.5,
+						power = 0.5
 					}}
 					
 					self.skill_descs.insulation = {
@@ -1848,12 +1884,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic					
 					self.values.weapon.special_damage_taken_multiplier = {
 						1.1, --Basic
-						1.25 --Ace
+						1.2 --Ace
 					}					
 				--Ace		
 					self.values.player.backstab_dodge = {
 						{
-							0.125, --Dodge on headshot
+							0.20, --Dodge on headshot
 							0.75 --Dodge on kill from behind
 						}
 					}
@@ -1932,7 +1968,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Gunfighter
 				self.values.pistol.reload_speed_multiplier = {
-					1.05, --Basic
+					1.1, --Basic
 					1.3 --Ace
 				}
 				self.values.pistol.move_spread_multiplier = {
@@ -2181,8 +2217,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 	--Crew Chief
 	self.values.team.stamina.passive_multiplier = {
-		1.5,
-		1.3
+		1.3,
+		1.5
 	}
 	self.values.team.armor.multiplier = {1.05}
 	self.values.team.health.passive_multiplier = {1.05}
@@ -2248,6 +2284,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.revive_temp_health = { 12 }
 	self.values.player.temp_health_speed = { 1.2 }
 	self.values.player.temp_health_deflection = { 0.1 }
+	self.values.player.temp_health_dodge_addend = { 0.05 }
 	self.values.player.armor_regen_dodge = { 1 }
 
 	self.values.player.level_2_dodge_addend = {
@@ -2290,6 +2327,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.25,
 		1.25
 	}
+	self.values.player.level_1_armor_deflection_addend = {0.00}
+	self.values.player.level_2_armor_deflection_addend = {0.05}
+	self.values.player.level_3_armor_deflection_addend = {0.05}
+	self.values.player.level_4_armor_deflection_addend = {0.05}
+	self.values.player.level_5_armor_deflection_addend = {0.00}
+	self.values.player.level_6_armor_deflection_addend = {0.00}
+
 	--infiltrator stuff
 	self.infiltrator_dr_range = 1200
 	self.values.player.melee_stacking_heal = {true}
@@ -2347,6 +2391,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{0.9, 7},
 		{0.8, 7}
 	}
+	self.values.player.close_contact_dodge_addend = { 0.05 }
 	self.max_melee_weapon_dmg_mul_stacks = 5
 	self.values.melee.stacking_hit_expire_t = {
 		10,
@@ -2356,7 +2401,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.08,
 		0.16
 	}
-	self.values.dmg_dampener_outnumbered_strong = {
+	self.values.dmg_dampener_outnumbered_strong = { --Unused
 		{0.95, 7}
 	}
 	self.values.player.tier_dodge_chance = {
@@ -2459,7 +2504,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.loose_ammo_give_team_health_ratio = 0.5 --% of healing given to team.
 	self.values.player.loose_ammo_restore_health_give_team = {true}
 	self.values.player.loose_ammo_give_armor = {0.3} --Changed to % of armor
-	self.values.player.loose_ammo_give_dodge = {1}
+	self.values.player.loose_ammo_give_dodge = {2}
 
 	--Create actual upgrade table for Gambler.
 	self.values.temporary.loose_ammo_restore_health = {}
@@ -2481,6 +2526,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 	--Sociopath more like SocioBAD (Crook)
 	self.values.player.killshot_regen_armor_bonus = {2}
+	self.values.player.killshot_regen_dodge_bonus = {0.15}
 	self.values.player.killshot_close_regen_armor_bonus = { 
 		{
 			1.5, --armor regen
@@ -2509,15 +2555,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{tank = 5},
 		{spooc_titan = 3},
 		{spooc = 2.75},
-		{vet = 2.50},
+		{vet = 2.25},
 		{taser_titan = 2.50},
 		{taser = 2.50},
 		{medic = 2.25},
-		{shield_titan = 2.00},
-		{shield = 1.75},
-		{sniper_titan = 1.75},
-		{sniper = 1.50},
-		{special = 1.50},
+		{shield_titan = 1.75},
+		{shield = 1.50},
+		{sniper_titan = 1.50},
+		{sniper = 1.25},
+		{special = 1.25},
 	}
 	self.socio_affinity_bonus_steps = 1
 	self.values.player.buildup_meter = {
@@ -2629,8 +2675,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.buildup_meter_quickening = { --armor to base combo
 		{
 			combo_add_mod = 1, --base combo added per step
-			hurt_t_mod = 1, --hurt decay cooldown added per step
-			armor_steps = 10 --armor steps
+			hurt_t_mod = 0.25, --hurt decay cooldown added per step
+			armor_steps = 5 --armor steps
 		}
 	}
 	self.values.player.buildup_meter_terrify = { --panic
@@ -2667,7 +2713,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			20,
 		}
 		self.values.player.buildup_meter_aubrey = {{
-			combo_add = 1,
+			combo_add = 1, --combo added on gun kills
 			combo_t_add = 2 --time added to active combo
 		}}
 		self.values.player.buildup_meter_zack = {
@@ -2687,12 +2733,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		self.values.player.tony_extra_ammo_multiplier = {0.5, 0.2}
 
 		self.values.player.buildup_meter_rick = {
-			{ combo_add_mod = 2, combo_max_mod = -50, ene_mult_mod = 0.7 },
+			{ combo_add_mod = 2, combo_max_mod = -50, ene_mult_mod = 0.6 },
 			{ combo_add_mod = 0, combo_max_mod = -20, ene_mult_mod = 1.0  }, --Tony
 			{ combo_add_mod = 0, combo_max_mod = -40, ene_mult_mod = 1.0  } --Tony R
 		}
 		self.values.player.buildup_meter_swan = {{
-			combo_add = 6
+			combo_add = 4
 		}}
 		self.values.player.buildup_meter_mark = {{ --armor regen speed
 			combo_steps = 5,
@@ -2735,33 +2781,41 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	
 	--Ex President
-	self.values.player.armor_health_store_amount = {
+	self.values.player.armor_health_store_amount = { --repurposed to be added to the base health stored on kill
+		0.05, --Card 1
+		0.10, --Card 3
+		0.15 --Card 5
+	}
+	self.values.player.body_armor.skill_health_store_on_kill = { --add Card 1's 0.5 for the base HP stored on kill
+		0.35,
 		0.3,
-		0.4,
-		0.5
+		0.25,
+		0.2,
+		0.15,
+		0.1,
+		0.05
+	}
+	self.values.player.body_armor.skill_max_health_store = { --Fixed to 25 HP for all armor sets
+		2.5,
+		2.5,
+		2.5,
+		2.5,
+		2.5,
+		2.5,
+		2.5
 	}
 	self.values.player.armor_max_health_store_multiplier = {
-		1.25
-	}
-
-	self.values.player.body_armor.skill_max_health_store = { --increments of 0.4
-		4.0,
-		3.6,
-		3.2,
-		2.8,
-		2.0, -- -0.8
-		1.6,
-		1.2
+		2.00 --increases max HP stroage to 50
 	}
 	self.kill_change_regenerate_speed_percentage = true
-	self.values.player.body_armor.skill_kill_change_regenerate_speed = { --increments of 0.02
-		1.16,
-		1.14,
-		1.12,
-		1.10,
-		1.08,
-		1.06,
-		1.04
+	self.values.player.body_armor.skill_kill_change_regenerate_speed = { --increments of 0.0125
+		1.125,
+		1.1125,
+		1.1,
+		1.0875,
+		1.075,
+		1.0625,
+		1.05
 	}
 
 	--I AM A BAD MOTHERFUCKA--
@@ -2794,6 +2848,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.chico_injector_speed = {
 		1.2
 	}
+	self.values.player.chico_injector_dodge_addend = {
+		0.05
+	}
 	self.values.player.chico_armor_multiplier = {
 		1.05,
 		1.1,
@@ -2809,6 +2866,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--sicario
 	self.smoke_screen_armor_regen = {2.0} --Multiplier for armor regen speed.
 	self.values.player.sicario_multiplier = {0.4} --Multiplier for dodge gained per second while inside grenade.
+	self.values.player.smoke_screen_ally_dodge_bonus = {0.2} --Multiplier for dodge gained per second for allies while inside the Sicario's smoke.
 	self.values.player.bomb_cooldown_reduction = {1} --Cooldown reduction on smoke bomb for dodging.
 	
 	--alcoholism is no joke
@@ -3214,12 +3272,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 	--Crew Chief
 	self.specialization_descs[1][1] = {
-		perk_value_1 = tostring(self.values.player.passive_health_multiplier[2] % 1 * 100).."%" -- HP increase
+		perk_value_1 = tostring(self.values.player.passive_health_multiplier[2] % 1 * 100).."%", -- HP increase
+		perk_value_2 = tostring(self.values.player.passive_dodge_chance[1] * 100) -- Passive dodge increase
 	}
 	self.specialization_descs[1][3] = {
-		perk_value_1 = tostring(self.values.team.stamina.passive_multiplier[1] % 1 * 100).."%", -- Stamina increase (for everyone)
+		perk_value_1 = tostring(self.values.team.stamina.passive_multiplier[2] % 1 * 100).."%", -- Stamina increase (for everyone)
 		perk_value_2 = tostring(self.values.player.passive_intimidate_range_mul[1] % 1 * 100).."%", -- Shout distance increase
-		perk_value_3 = tostring(self.values.player.passive_dodge_chance[1] * 100) -- Passive dodge increase
+		perk_value_3 = tostring((self.values.player.passive_dodge_chance[2] - self.values.player.passive_dodge_chance[1]) * 100) -- Additional dodge
 	}
 	self.specialization_descs[1][5] = {
 		perk_value_1 = tostring((self.values.player.passive_health_multiplier[3] - self.values.player.passive_health_multiplier[1]) * 100).."%", -- Additional HP increase
@@ -3228,7 +3287,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.specialization_descs[1][7] = {
 		perk_value_1 = tostring(self.values.player.tier_armor_multiplier[1] % 1 * 100).."%", -- Armor increase
-		perk_value_2 = tostring((self.values.player.passive_dodge_chance[2] - self.values.player.passive_dodge_chance[1]) * 100) -- Additional dodge
+		perk_value_2 = tostring((self.values.player.passive_dodge_chance[3] - self.values.player.passive_dodge_chance[2]) * 100) -- Additional dodge
 	}
 	self.specialization_descs[1][9] = {
 		perk_value_1 = tostring(self.values.team.health.hostage_multiplier[1] % 1 * 100).."%", -- HP boost per hostage
@@ -3269,11 +3328,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.specialization_descs[3][5] = {
 		perk_value_1 = tostring((self.values.player.tier_armor_multiplier[5] - self.values.player.tier_armor_multiplier[4]) * 100).."%", -- Another additional armor increase
 		perk_value_2 = "2", -- Body bag cases quantity. Not defined here so beware
-		perk_value_3 = tostring(self.values.player.level_2_dodge_addend[1] * 100) -- Dodge increase for vests
+		--perk_value_3 = tostring(self.values.player.level_2_dodge_addend[1] * 100) -- Dodge increase for vests
+		perk_value_3 = tostring((self.values.player.passive_dodge_chance[2] - self.values.player.passive_dodge_chance[1]) * 100) -- Additional dodge
 	}
 	self.specialization_descs[3][7] = {
 		perk_value_1 = tostring((1 - self.values.player.perk_armor_regen_timer_multiplier[1]) * 100).."%", -- Armor regen buff
-		perk_value_2 = tostring((self.values.player.level_2_dodge_addend[2] - self.values.player.level_2_dodge_addend[1]) * 100) -- Additional dodge increase for vests
+		--perk_value_2 = tostring((self.values.player.level_2_dodge_addend[2] - self.values.player.level_2_dodge_addend[1]) * 100) -- Additional dodge increase for vests
+		perk_value_2 = tostring((self.values.player.passive_dodge_chance[3] - self.values.player.passive_dodge_chance[2]) * 100), -- Additional dodge
+		perk_value_3 = tostring(self.values.player.level_2_armor_deflection_addend[1] * 100).."%" -- BV armor deflection
 	}
 	self.specialization_descs[3][9] = {
 		perk_value_1 = tostring((self.values.player.perk_armor_regen_timer_multiplier[1] - self.values.player.perk_armor_regen_timer_multiplier[2]) * 100).."%", -- Additional armor regen
@@ -3314,6 +3376,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.specialization_descs[5][5] = {
 		perk_value_1 = "60%", -- Store per kill & max possible stored HP increase
+		perk_value_3 = tostring(self.values.player.temp_health_dodge_addend[1] * 100), -- Temp dodge bonus while temp HP is active
 		perk_value_2 = tostring(self.values.player.corpse_dispose_amount[2] - self.values.player.corpse_dispose_amount[1]) -- Additional body bag
 	}
 	self.specialization_descs[5][7] = {
@@ -3330,16 +3393,20 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.specialization_descs[6][1] = {
 		perk_value_1 = tostring(self.infiltrator_dr_range / 100), -- Required range to activate DR
 		perk_value_2 = tostring((1 - self.values.temporary.dmg_dampener_close_contact[2][1]) * 100).."%", -- DR when enemy is close
-		perk_value_3 = tostring(self.values.player.passive_dodge_chance[1] * 100) -- Passive dodge increase
+		perk_value_3 = tostring(self.values.player.passive_dodge_chance[1] * 100), -- Passive dodge increase
+		perk_value_4 = tostring(self.values.temporary.dmg_dampener_close_contact[2][2]), -- Duration of DR buff
 		--perk_value_1 = tostring(self.values.player.passive_dodge_chance[1] * 100), -- Passive dodge increase
 		--perk_value_2 = tostring(self.values.player.level_2_armor_multiplier[1] % 1 * 100).."%" -- Armor bonus for vests
 	}
 	self.specialization_descs[6][3] = {
 		perk_value_1 = tostring(self.values.player.killshot_regen_armor_bonus[1] * 10), -- Armor regen on kill
+		perk_value_7 = tostring(self.values.player.killshot_regen_dodge_bonus[1] * 100) .. "%", -- Dodge regen on kill
 		perk_value_2 = tostring(self.on_killshot_cooldown), -- Cooldown for socio armor/HP regen abilities
 		perk_value_3 = tostring(self.on_killshot_cooldown_reduction), -- CD reduction on kill
 		perk_value_4 = tostring(self.on_killshot_cooldown_reduction_melee), -- CD reduction on melee kill
 		--perk_value_1 = tostring(self.values.player.level_2_dodge_addend[1] * 100) -- Dodge increase for vests
+		perk_value_5 = tostring(self.infiltrator_dr_range / 100), -- Required range to activate DR
+		perk_value_6 = tostring(self.values.player.close_contact_dodge_addend[1] * 100) -- dodge when enemy is close
 	}
 	self.specialization_descs[6][5] = {
 		perk_value_1 = tostring(self.values.player.melee_kill_life_leech[1] * 100).."%", -- HP regen on melee kill
@@ -3383,7 +3450,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Infiltrator
 	self.specialization_descs[8][1] = {
 		perk_value_1 = tostring(self.infiltrator_dr_range / 100), -- Required range to activate DR
-		perk_value_2 = tostring((1 - self.values.temporary.dmg_dampener_close_contact[1][1]) * 100).."%" -- DR when enemy is close
+		perk_value_2 = tostring((1 - self.values.temporary.dmg_dampener_close_contact[1][1]) * 100).."%", -- DR when enemy is close
+		perk_value_3 = tostring(self.values.player.close_contact_dodge_addend[1] * 100), -- dodge when enemy is close
+		perk_value_4 = tostring(self.values.temporary.dmg_dampener_close_contact[1][2]) -- DR duration when conditions are no longer met
 	}
 	self.specialization_descs[8][3] = {
 		perk_value_1 = tostring(self.infiltrator_dr_range / 100), -- Required range to activate DR
@@ -3491,7 +3560,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		perk_value_1 = tostring(self.values.player.buildup_meter_pacify[2].effect * 100) .. "%",
 		perk_value_2 = tostring(self.values.player.buildup_meter_pacify[2].combo_steps),
 		perk_value_3 = tostring(self.values.player.buildup_meter_pacify[2].effect_max * 100) .. "%",
-		perk_value_4 = tostring(self.values.player.buildup_meter_hurt_decay_mod[2]),
+		perk_value_4 = tostring(self.values.player.buildup_meter_hurt_decay_mod[3]),
 	}
 	self.multi_choice_specialization_descs[9][9][5] = { --Zack
 		perk_value_1 = tostring(self.values.player.buildup_meter_zack[1].combo_t_mod),
@@ -3614,14 +3683,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 	--(S)Ex-President
 	self.specialization_descs[13][1] = {
-		perk_value_1 = tostring(self.values.player.armor_health_store_amount[1] * 10) -- HP stored per kill
+		perk_value_1 = tostring(self.values.player.body_armor.skill_max_health_store[1] * 10) -- Max HP stored 
 	}
 	self.specialization_descs[13][3] = {
 		perk_value_1 = tostring((self.values.player.armor_health_store_amount[2] - self.values.player.armor_health_store_amount[1]) * 10), -- Additional HP stored per kill
 		perk_value_2 = tostring(self.values.player.passive_dodge_chance[1] * 100) -- Passive dodge increase
 	}
 	self.specialization_descs[13][5] = {
-		perk_value_1 = tostring(self.values.player.armor_max_health_store_multiplier[1] % 1 * 100).."%", -- Max HP store increase
+		perk_value_1 = tostring(((self.values.player.body_armor.skill_max_health_store[1] * self.values.player.armor_max_health_store_multiplier[1]) - self.values.player.body_armor.skill_max_health_store[1]) * 10), -- Max HP stored increase
 		perk_value_2 = tostring(self.values.team.player.civ_intimidation_mul[1] % 1 * 100).."%" -- Civs intimidated longer
 	}
 	self.specialization_descs[13][7] = {
@@ -3774,7 +3843,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.specialization_descs[17][5] = {
 		perk_value_1 = tostring(self.values.temporary.chico_injector[3][1] * 100).."%", -- HP regen on damage taken
-		perk_value_2 = tostring(self.values.temporary.chico_injector[3][2]) -- Injector's duration buff
+		perk_value_2 = tostring(self.values.temporary.chico_injector[3][2]), -- Injector's duration buff
+        perk_value_3 = tostring(self.values.player.chico_injector_dodge_addend[1] * 100) -- Passive dodge increase
 	}
 	self.specialization_descs[17][7] = {
 		perk_value_1 = tostring(self.values.player.chico_injector_low_health_multiplier[1][2] * 100).."%", -- HP regen buff on low HP
@@ -3807,7 +3877,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		perk_value_1 = tostring((self.values.player.passive_dodge_chance[3] - self.values.player.passive_dodge_chance[2]) * 100) -- Another additional dodge
 	}
 	self.specialization_descs[18][9] = {
-		perk_value_1 = tostring(self.values.player.sicario_multiplier[1] * 100).."%" -- Dodge regen while you inside the smoke screen
+		perk_value_1 = tostring(self.values.player.sicario_multiplier[1] * 100).."%", -- Dodge regen while you inside the smoke screen
+		perk_value_2 = tostring(self.values.player.smoke_screen_ally_dodge_bonus[1] * 100).."%" -- Dodge regen for allies inside your smoke screen
 	}
 	
 	--Stoic
@@ -3821,7 +3892,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		perk_value_7 = tostring((1 - self.values.player.damage_grace_mult[1]) * 100).."%" -- grace period multiplier
 	}
 	self.specialization_descs[19][3] = {
-		perk_value_1 = tostring(self.values.player.damage_control_cooldown_drain[1][2]) -- CD reduction on kill
+		perk_value_1 = tostring(self.values.player.damage_control_cooldown_drain[1][2]), -- CD reduction on kill
+		perk_value_2 = tostring(self.values.player.passive_dodge_chance[1] * 100) -- dodge
 	}
 	self.specialization_descs[19][5] = {
 		perk_value_1 = tostring(self.values.player.damage_control_auto_shrug[1]), -- DoT damage negated after X seconds
@@ -4058,7 +4130,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		perk_value_2 = tostring(self.values.player.corpse_dispose_speed_multiplier[1] * 100).."%" -- Faster interaction with civs + bagging corpses
 	}
 	self.multi_choice_specialization_descs[23][9][13] = { --Ex-President
-		perk_value_1 = tostring(self.values.player.armor_health_store_amount[1] * 10), -- HP stored per kill
+		perk_value_1 = tostring(self.values.player.body_armor.skill_max_health_store[1] * 10), -- Max HP stored 
 		perk_value_2 = tostring(self.values.team.player.civ_intimidation_mul[1] % 1 * 100).."%" -- Civs intimidated longer
 	}
 	self.multi_choice_specialization_descs[23][9][14] = { --Maniac
@@ -4246,6 +4318,7 @@ function UpgradesTweakData.mrwi_deck9_options()
 				--"player_level_3_armor_multiplier_2",
 				--"player_level_4_armor_multiplier_2",
 				"player_killshot_regen_armor_bonus",
+				"player_killshot_regen_dodge_bonus",
 				"player_killshot_close_regen_armor_bonus",
 				"player_level_2_dodge_addend_1",
 				"player_level_3_dodge_addend_1",
@@ -4489,7 +4562,78 @@ function UpgradesTweakData:_player_definitions()
 	sc_definitions (self, tweak_data)
 
 	--New Definitions, calling em here to play it safe--
+	self.definitions.player_killshot_regen_dodge_bonus = {
+		name_id = "menu_player_killshot_regen_dodge_bonus",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "killshot_regen_dodge_bonus",
+			category = "player"
+		}
+	}
+	self.definitions.player_close_contact_dodge_addend = {
+		name_id = "menu_player_close_contact_dodge_addend",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_contact_dodge_addend" ,
+			category = "player"
+		}
+	}
 
+	local id = ""
+	for armor_level = 1, 7 do
+		for skill_tier = 1, 2 do
+			id = "level_" .. armor_level .. "_armor_regen_timer_mult"
+			self.definitions["player_" .. id .. "_" .. skill_tier] = {
+				name_id = "menu_player_" .. id,
+				category = "feature",
+				upgrade = {
+					value = skill_tier,
+					upgrade = id,
+					category = "player"
+				}
+			}
+		end
+		id = "level_" .. armor_level .. "_armor_deflection_addend"
+		self.definitions["player_" .. id] = {
+			name_id = "menu_player_" .. id,
+			category = "feature",
+			upgrade = {
+				value = 1,
+				upgrade = id,
+				category = "player"
+			}
+		}
+	end
+	self.definitions.player_level_7_armor_movement_speed_addend = {
+		name_id = "menu_player_level_7_armor_movement_speed_addend",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "level_7_armor_movement_speed_addend" ,
+			category = "player"
+		}
+	}
+	self.definitions.player_level_3_armor_addend = {
+		name_id = "menu_player_level_3_armor_addend",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "level_3_armor_addend",
+			category = "player"
+		}
+	}
+
+	self.definitions.player_armor_regen_timer_multiplier_tier_2 = {
+		name_id = "menu_player_armor_regen_timer_multiplier_tier",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "armor_regen_timer_multiplier_tier",
+			category = "player"
+		}
+	}
 	self.definitions.player_scaling_pickup_area = {
 		name_id = "menu_scaling_pickup_area",
 		category = "feature",
@@ -5598,6 +5742,15 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "chico_injector_speed",
+			category = "player"
+		}
+	}
+	self.definitions.player_chico_injector_dodge_addend = {
+		name_id = "menu_player_chico_injector_dodge_addend",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "chico_injector_dodge_addend",
 			category = "player"
 		}
 	}
@@ -7294,6 +7447,15 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_temp_health_dodge_addend = {
+		name_id = "menu_player_temp_health_deflection",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "temp_health_dodge_addend",
+			category = "player"
+		}
+	}
 	self.definitions.player_armor_regen_dodge = {
 		name_id = "menu_player_armor_regen_dodge",
 		category = "feature",
@@ -7333,6 +7495,24 @@ function UpgradesTweakData:_saw_definitions()
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
+	self.definitions.shotgun_object_damage_bonus_1 = {
+		name_id = "menu_shotgun_object_damage_bonus",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "object_damage_bonus",
+			category = "shotgun"
+		}
+	}
+	self.definitions.shotgun_object_damage_bonus_2 = {
+		name_id = "menu_shotgun_object_damage_bonus",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "object_damage_bonus",
+			category = "shotgun"
+		}
+	}
 	self.definitions.snp_steelsight_accuracy_inc_1 = {
 		name_id = "menu_snp_steelsight_accuracy_inc",
 		category = "feature",

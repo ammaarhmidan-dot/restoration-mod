@@ -1050,14 +1050,14 @@ function BlackMarketGui:_get_armor_stats(name)
 			local base = 0
 			local mod = managers.player:body_armor_value("deflection", upgrade_level, 0)
 			base_stats[stat.name] = {value = (base + mod) * 100}
-			skill_stats[stat.name] = {value = managers.player:get_deflection_from_skills() * 100}
+			skill_stats[stat.name] = {value = managers.player:get_deflection_from_skills(name) * 100}
 		elseif stat.name == "regen_time" then
 			local base = managers.player:body_armor_value("regen_delay", upgrade_level, 0)
 			base_stats[stat.name] = {value = base}
 			if managers.player:has_category_upgrade("player", "armor_grinding") then
 				skill_stats[stat.name] = {value = tweak_data.upgrades.values.player.armor_grinding[1][upgrade_level][2] - base}
 			else
-				skill_stats[stat.name] = {value = base * managers.player:body_armor_regen_multiplier(false, 0) - base}
+				skill_stats[stat.name] = {value = base * managers.player:body_armor_regen_multiplier(false, 0, name) - base}
 			end
 		elseif stat.name == "damage_shake" then
 			local base = 10--tweak_data.gui.armor_damage_shake_base
@@ -3335,6 +3335,185 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 				end
 			end
 
+			self._throwable_stats_shown = {
+				{
+					range = true,
+					name = "damage_impact"
+				},
+				{
+					range = true,
+					name = "range_impact",
+					suffix = managers.localization:text("menu_meters_suffix_short")
+				},
+				{
+					range = true,
+					name = "damage_blast"
+				},
+				{
+					range = true,
+					name = "range_blast",
+					suffix = managers.localization:text("menu_meters_suffix_short")
+				},
+				{
+					range = true,
+					name = "time_blast",
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				{
+					range = true,
+					name = "damage_pool",
+					suffix = managers.localization:text("menu_persecond_suffix_short")
+				},
+				{
+					range = true,
+					name = "range_pool",
+					suffix = managers.localization:text("menu_meters_suffix_short")
+				},
+				{
+					range = true,
+					name = "time_pool",
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				{
+					range = true,
+					name = "damage_dot",
+					suffix = managers.localization:text("menu_persecond_suffix_short")
+				},
+				{
+					range = true,
+					name = "range_dot",
+					suffix = managers.localization:text("menu_meters_suffix_short")
+				},
+				{
+					range = true,
+					name = "time_dot",
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				--[[
+				{
+					range = true,
+					name = "damage"
+				},
+				{
+					range = true,
+					name = "dot",
+					suffix = managers.localization:text("menu_persecond_suffix_short")
+				},
+				{
+					range = true,
+					name = "time",
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				{
+					range = true,
+					name = "range"
+				},
+				--]]
+				{
+					inverse = true,
+					name = "cooldown",
+					num_decimals = 1,
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				{
+					name = "cooldown_reduction",
+					num_decimals = 1,
+					suffix = managers.localization:text("menu_seconds_suffix_short")
+				},
+				{
+					index = true,
+					name = "amount"
+				}
+			}
+			local x = 0
+			local y = 20
+			local text_panel = nil
+			self._throwable_stats_texts = {}
+			local text_columns = {
+				{
+					size = 100,
+					name = "name"
+				},
+				{
+					align = "right",
+					name = "equip",
+					blend = "add",
+					alpha = 0.75,
+					size = 55
+				},
+				{
+					align = "right",
+					name = "base",
+					blend = "add",
+					alpha = 0.75,
+					size = 60
+				},
+				{
+					align = "right",
+					name = "skill",
+					blend = "add",
+					alpha = 0.75,
+					size = 65,
+					color = tweak_data.screen_colors.resource
+				},
+				{
+					size = 60,
+					name = "total",
+					align = "right"
+				}
+			}
+			self._throwable_stats_panel = self._stats_panel:panel({
+				visible = false
+			})
+
+			local scale_chart = 0.9 -- STAT CHART SCALING
+			for i, stat in ipairs(self._throwable_stats_shown) do
+				panel = self._throwable_stats_panel:panel({
+					h = 20 * scale_chart,
+					layer = 1,
+					name = stat.name,
+					y = y * scale_chart,
+					w = self._throwable_stats_panel:w()
+				})
+
+				if math.mod(i, 2) == 0 and not panel:child(tostring(i)) then
+					panel:rect({
+						name = tostring(i),
+						color = Color.black:with_alpha(0.3),
+						h = h + 2 * scale_chart
+					})
+				end
+
+				x = 2
+				y = y + 20 * scale_chart
+				self._throwable_stats_texts[stat.name] = {}
+
+				for _, column in ipairs(text_columns) do
+					text_panel = panel:panel({
+						layer = 0,
+						x = x,
+						w = column.size,
+						h = panel:h()
+					})
+					self._throwable_stats_texts[stat.name][column.name] = text_panel:text({
+						rotation = 360,
+						layer = 1,
+						font_size = small_font_size * scale_chart,
+						font = small_font,
+						align = column.align,
+						alpha = column.alpha,
+						blend_mode = column.blend,
+						color = column.color or tweak_data.screen_colors.text,
+						y = panel:h() - (column.font_size or small_font_size) * scale_chart
+					})
+					x = x + column.size
+
+					if column.name == "total" then
+						text_panel:set_x(190)
+					end
+				end
+			end
+
 			panel = self._stats_panel:panel({
 				name = "modslist_panel",
 				layer = 0,
@@ -3759,6 +3938,109 @@ function BlackMarketGui:show_btns(slot)
 	self:_update_borders()
 end
 
+function BlackMarketGui:_get_grenade_stats(name)
+	local base_stats = {}
+	local mods_stats = {}
+	local skill_stats = {}
+	local projectile_data = tweak_data.projectiles[name]
+	local bm_projectile_data = tweak_data.blackmarket.projectiles[name]
+
+	for i, stat in ipairs(self._throwable_stats_shown) do
+		local skip_rounding = stat.num_decimals
+		base_stats[stat.name] = {
+			value = 0
+		}
+		mods_stats[stat.name] = {
+			value = 0
+		}
+		skill_stats[stat.name] = {
+			value = 0
+		}
+
+		local dot_tweak = projectile_data and (projectile_data.dot_data_name or projectile_data.poison_gas_dot_data_name)
+		local dot_data = dot_tweak and tweak_data.dot:get_dot_data(dot_tweak)
+		local env_data = projectile_data and projectile_data.fire_env_name and tweak_data.env_effect[projectile_data.fire_env_name]()
+		local env_dot_data = env_data and env_data.dot_data_name and tweak_data.dot:get_dot_data(env_data.dot_data_name)
+		local dot_source = env_dot_data or dot_data
+		local detonates = projectile_data and is_smoke or is_explosive
+
+		if stat.name == "damage_blast" then
+			base_stats[stat.name].value = projectile_data and (projectile_data.is_explosive and projectile_data.damage and projectile_data.damage > 0 and projectile_data.damage * 10) or nil
+		elseif stat.name == "range_blast" then
+			base_stats[stat.name].value = projectile_data and 
+				((projectile_data.is_explosive and projectile_data.range / 100) or 
+				(projectile_data.poison_gas_range and projectile_data.poison_gas_range / 100))
+				or nil
+		elseif stat.name == "time_blast" then
+			base_stats[stat.name].value = projectile_data and (projectile_data.poison_gas_duration or projectile_data.duration)
+		elseif stat.name == "damage_impact" then
+			base_stats[stat.name].value = projectile_data and 
+				((projectile_data.is_explosive and projectile_data.direct_damage_percent and (projectile_data.direct_damage_percent * projectile_data.damage * 10)) or 
+				(not projectile_data.is_explosive and projectile_data.damage and projectile_data.damage > 0 and projectile_data.damage * 10)) or nil
+		elseif stat.name == "range_impact" then
+			base_stats[stat.name].value = projectile_data and ((not projectile_data.is_explosive and projectile_data.range and projectile_data.range > 0 and projectile_data.range / 100) or nil)
+		elseif stat.name == "damage_pool" then
+			base_stats[stat.name].value = env_data and env_data.damage and (env_data.damage * 10 / (env_data.burn_tick_period or 1))
+		elseif stat.name == "range_pool" then
+			base_stats[stat.name].value = env_data and env_data.range and env_data.range / 10
+		elseif stat.name == "time_pool" then
+			base_stats[stat.name].value = env_data and env_data.burn_duration
+		elseif stat.name == "damage_dot" then
+			base_stats[stat.name].value = dot_source and dot_source.dot_damage and  dot_source.dot_damage > 0  and (dot_source.dot_damage * 10) / (dot_source.dot_tick_period or 0.5)
+		elseif stat.name == "range_dot" then
+			base_stats[stat.name].value = nil
+		elseif stat.name == "time_dot" then
+			base_stats[stat.name].value = dot_source and dot_source.dot_length and  dot_source.dot_length > dot_source.dot_grace_period and (dot_source.dot_length - (dot_source.dot_grace_period or 0.1))
+		elseif stat.name == "cooldown" then
+			base_stats[stat.name].value = bm_projectile_data and bm_projectile_data.base_cooldown
+		elseif stat.name == "cooldown_reduction" then
+			base_stats[stat.name].value = bm_projectile_data and bm_projectile_data.pickup_cooldown_t
+		elseif stat.name == "detonate_time" then
+			base_stats[stat.name].value = detonates and projectile_data and (projectile_data.in_air_timer or projectile_data.init_timer)
+			mods_stats[stat.name].value = detonates and 1
+		elseif stat.name == "amount" then
+			base_stats[stat.name].value = bm_projectile_data and bm_projectile_data.max_amount
+			if base_stats[stat.name].value and bm_projectile_data then
+				local is_cooldown = bm_projectile_data.base_cooldown
+				local is_perk_throwable = is_cooldown and not bm_projectile_data.base_cooldown_no_perk
+				local throwables_multiplier = (not is_cooldown and managers.player:upgrade_value("player", "throwables_multiplier", 1)) or 1
+				base_stats[stat.name].value = math.round(base_stats[stat.name].value * throwables_multiplier)
+				skill_stats[stat.name].value = (throwables_multiplier > 1 and 1) or nil
+			end
+		end
+
+
+		if base_stats[stat.name].value ~= nil and type(base_stats[stat.name].value) ~= "number" then
+			--log( "something is fucky with " .. tostring( stat.name ) .. " for " .. tostring(name) )
+			base_stats[stat.name].value = nil
+		end
+
+		base_stats[stat.name].real_value = base_stats[stat.name].value
+		mods_stats[stat.name].real_value = mods_stats[stat.name].value
+		skill_stats[stat.name].real_value = skill_stats[stat.name].value
+	end
+
+	for i, stat in ipairs(self._throwable_stats_shown) do
+		if not stat.index then
+			if skill_stats[stat.name].value and base_stats[stat.name].value then
+				skill_stats[stat.name].value = base_stats[stat.name].value * skill_stats[stat.name].value
+				base_stats[stat.name].value = base_stats[stat.name].value
+			end
+
+			if skill_stats[stat.name].min_value and base_stats[stat.name].min_value then
+				skill_stats[stat.name].min_value = base_stats[stat.name].min_value * skill_stats[stat.name].min_value
+				base_stats[stat.name].min_value = base_stats[stat.name].min_value
+			end
+
+			if skill_stats[stat.name].max_value and base_stats[stat.name].max_value then
+				skill_stats[stat.name].max_value = base_stats[stat.name].max_value * skill_stats[stat.name].max_value
+				base_stats[stat.name].max_value = base_stats[stat.name].max_value
+			end
+		end
+	end
+
+	return base_stats, mods_stats, skill_stats
+end
 
 function BlackMarketGui:show_stats()
 	if not self._stats_panel or not self._rweapon_stats_panel or not self._armor_stats_panel or not self._mweapon_stats_panel then
@@ -4168,6 +4450,103 @@ function BlackMarketGui:show_stats()
 		end
 
 		hide_stats = true
+		elseif tweak_data.blackmarket.projectiles[self._slot_data.name] then
+		self:hide_melee_weapon_stats()
+		self:hide_armor_stats()
+		self:hide_weapon_stats()
+		self._throwable_stats_panel:show()
+
+		for _, title in pairs(self._stats_titles) do
+			title:hide()
+		end
+
+		self:set_stats_titles({
+			show = true,
+			name = "total"
+		}, {
+			name = "equip",
+			text_id = "bm_menu_equipped",
+			alpha = 0.75,
+			x = 105,
+			show = true
+		})
+
+		local equipped_item = managers.blackmarket:equipped_item(category)
+		local equip_base_stats, equip_mods_stats, equip_skill_stats = self:_get_grenade_stats(equipped_item)
+		local base_stats, mods_stats, skill_stats = self:_get_grenade_stats(self._slot_data.name)
+		local no_data_string = managers.localization:to_upper_text("bm_menu_damage_falloff_no_data")
+
+		for _, stat in ipairs(self._throwable_stats_shown) do
+			self._throwable_stats_texts[stat.name].name:set_text(utf8.to_upper(managers.localization:text("bm_menu_" .. stat.name)))
+
+			local equip = equip_base_stats[stat.name].value
+			local skill = equip_skill_stats[stat.name].value
+			local use_skill_color = nil
+			value = base_stats[stat.name].value
+
+			if equip or value then
+				local equip_text = equip and format_round_3(equip, stat.round_value) or no_data_string
+				local total_text = value and format_round_3(value, stat.round_value) or no_data_string
+
+				if stat.suffix then
+					if equip then
+						equip_text = equip_text .. tostring(stat.suffix) or equip_text
+					end
+
+					if value then
+						total_text = total_text .. tostring(stat.suffix) or total_text
+					end
+				end
+
+				if stat.prefix then
+					if equip then
+						equip_text = tostring(stat.prefix) .. equip_text or equip_text
+					end
+
+					if value then
+						total_text = tostring(stat.prefix) .. total_text or total_text
+					end
+				end
+
+				if stat.name == "amount" then
+					if skill then
+						use_skill_color = true
+					end
+				end
+
+				self._throwable_stats_panel:child(stat.name):show()
+				self._throwable_stats_texts[stat.name].equip:set_alpha(0.75)
+				self._throwable_stats_texts[stat.name].equip:set_text(equip_text)
+				self._throwable_stats_texts[stat.name].base:set_text("")
+				self._throwable_stats_texts[stat.name].skill:set_text("")
+				self._throwable_stats_texts[stat.name].total:set_text(total_text)
+
+				local positive = value and equip and equip < value or (equip_text == no_data_string)
+				local negative = value and equip and value < equip
+
+				if stat.inverse then
+					local temp = positive
+					positive = negative
+					negative = temp
+				end
+
+				if positive then
+					self._throwable_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stats_positive)
+				elseif negative then
+					self._throwable_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stats_negative)
+				elseif no_data_string and not value then
+					self._throwable_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.item_stage_2)
+				elseif use_skill_color then
+					self._throwable_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.skill_color)
+				else
+					self._throwable_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.text)
+				end
+
+				self._throwable_stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.text)
+			else
+				self._throwable_stats_panel:child(stat.name):hide()
+			end
+		end
 	elseif tweak_data.blackmarket.melee_weapons[self._slot_data.name] then
 		self:hide_armor_stats()
 		self:hide_weapon_stats()
@@ -4551,8 +4930,8 @@ function BlackMarketGui:show_stats()
 				column:set_alpha(stat_changed and 1 or 0.5)
 			end
 
-			local equip_text = equip == 0 and "" or (equip > 0 and "+" or "") .. format_round(equip, stat.round_value)
 			local append = stat.append or ""
+			local equip_text = (equip == 0 and "") or ((equip > 0 and "+" or "") .. format_round(equip, stat.round_value) .. append)
 
 			self._stats_texts[stat.name].base:set_text(equip_text)
 			self._stats_texts[stat.name].base:set_alpha(0.75)
@@ -4630,6 +5009,16 @@ function BlackMarketGui:show_stats()
 	elseif self._mweapon_stats_panel:visible() then
 		for i, child in ipairs(self._mweapon_stats_panel:children()) do
 			y = math.max(y, child:bottom())
+		end
+	elseif self._throwable_stats_panel:visible() then
+		y = 20
+
+		for i, child in ipairs(self._throwable_stats_panel:children()) do
+			if child:visible() then
+				child:set_y(y)
+
+				y = math.max(y, child:bottom())
+			end
 		end
 	end
 
@@ -5408,8 +5797,9 @@ function BlackMarketGui:update_info_text()
 		end
 
 		if managers.player:has_category_upgrade("player", "armor_health_store_amount") then --Add Ex-Pres per-kill armor regen bonus.
-			local amount = managers.player:body_armor_value("skill_max_health_store", upgrade_level, 1)
-			local multiplier = managers.player:upgrade_value("player", "armor_max_health_store_multiplier", 1)
+			local amount = managers.player:body_armor_value("skill_health_store_on_kill", upgrade_level, 1)
+			amount = amount + managers.player:upgrade_value("player", "armor_health_store_amount", 0)
+			local multiplier = 1--managers.player:upgrade_value("player", "armor_max_health_store_multiplier", 1)
 			local regen_speed = format_round((managers.player:body_armor_value("skill_kill_change_regenerate_speed", upgrade_level, 1) - 1) * 100)
 			local description = (managers.player:has_category_upgrade("player", "kill_change_regenerate_speed") and
 								managers.localization:to_upper_text("bm_menu_armor_max_health_store_2", {health_stored = format_round(amount * multiplier * tweak_data.gui.stats_present_multiplier), regen_bonus = regen_speed})
@@ -6449,7 +6839,7 @@ function BlackMarketGui:update_info_text()
 		if deployable_id == "doctor_bag" then
 			deployable_uses = tweak_data.upgrades.doctor_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "amount_increase") or 0)
 		elseif deployable_id == "ammo_bag" then
-			deployable_uses = tweak_data.upgrades.ammo_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "ammo_increase") or 0)
+			deployable_uses = (tweak_data.upgrades.ammo_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "ammo_increase") or 0)) * 100 .. "%"
 		elseif deployable_id == "trip_mine" then
 			pickup_low = tweak_data.equipments.trip_mine.pickup_low or pickup_low
 			pickup_high = tweak_data.equipments.trip_mine.pickup_high or pickup_high
@@ -6465,11 +6855,7 @@ function BlackMarketGui:update_info_text()
 		end
 
 		if deployable_id == "sentry_gun" then
-			local ammo_cost = { --SentryGunBase isn't loaded outside of gameplay so I gotta dupe the cost table here, maybe I'll move it to tweak_data
-				0.4,
-				0.35,
-				0.3
-			}
+			local ammo_cost = tweak_data.upgrades.sentry_gun_ammo_cost
 			local cost_reduction = managers.player:has_category_upgrade(deployable_id, "cost_reduction") and managers.player:equiptment_upgrade_value(deployable_id, "cost_reduction") or 1
 			deployable_uses = ammo_cost[cost_reduction] * 100 .. "%"
 		end
@@ -7605,7 +7991,7 @@ function BlackMarketGui:populate_choose_mask_mod(data)
 			end
 
 			table.insert(new_data, "mp_preview")
-			
+
 			table.insert(new_data, "mp_modshop")
 		end
 

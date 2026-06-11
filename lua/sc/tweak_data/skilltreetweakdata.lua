@@ -521,13 +521,15 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {2, 1},
 					[1] = {
 						upgrades = {
-							"player_damage_multiplier_outnumbered"
+							"player_damage_multiplier_outnumbered",
+							"shotgun_object_damage_bonus_1"
 						},
 						cost = self.costs.default
 					},
 					[2] = {
 						upgrades = {
-							"player_damage_dampener_outnumbered"
+							"player_damage_dampener_outnumbered",
+							"shotgun_object_damage_bonus_2"
 						},
 						cost = self.costs.pro
 					}
@@ -705,15 +707,29 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {3, 1},
 					[1] = {
 						upgrades = {
-							"body_armor6",
+							"body_armor6", --I hate that ICTV's skill definition is labled a 6
+							"player_level_1_armor_regen_timer_mult_1",
+							"player_level_2_armor_regen_timer_mult_1",
+							"player_level_3_armor_regen_timer_mult_1",
+							"player_level_4_armor_regen_timer_mult_1",
+							"player_level_5_armor_regen_timer_mult_1",
+							"player_level_6_armor_regen_timer_mult_1",
 							"player_shield_knock"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
+							"player_level_1_armor_regen_timer_mult_2",
+							"player_level_2_armor_regen_timer_mult_2",
+							"player_level_3_armor_regen_timer_mult_2",
+							"player_level_4_armor_regen_timer_mult_2",
+							"player_level_5_armor_regen_timer_mult_2",
+							"player_level_6_armor_regen_timer_mult_2",
+							"player_level_7_armor_regen_timer_mult_1",
+							"player_level_7_armor_deflection_addend",
+							"player_level_7_armor_movement_speed_addend",
 							"player_bullet_shield_knock",
-							"player_armor_regen_timer_multiplier"
 						},
 						cost = self.costs.hightierpro
 					}
@@ -937,14 +953,15 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {9, 5},
 					[1] = {
 						upgrades = {
-							"sentry_gun_ap_bullets"
+							"sentry_gun_ap_bullets",
+							"sentry_gun_cost_reduction_1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
 							"sentry_gun_quantity_1",
-							"sentry_gun_cost_reduction_1"
+							"sentry_gun_shield"
 						},
 						cost = self.costs.hightierpro
 					}
@@ -963,7 +980,6 @@ function SkillTreeTweakData:init(tweak_data)
 					},
 					[2] = {
 						upgrades = {
-							"player_armor_regen_timer_multiplier_tier",
 							"player_armor_full_damage_absorb",
 							"player_scaling_armor_break_grace"
 						},
@@ -1427,7 +1443,8 @@ function SkillTreeTweakData:init(tweak_data)
 					[1] = {
 						upgrades = {
 							"player_steelsight_move_speed_multiplier",
-	                   		"player_detection_risk_add_movement_speed_1"
+	                   		"player_detection_risk_add_movement_speed_1",
+							"player_on_zipline_dodge_chance"
 						},
 						cost = self.costs.hightier
 					},
@@ -1435,8 +1452,7 @@ function SkillTreeTweakData:init(tweak_data)
 						upgrades = {
 							"player_run_and_shoot_1",
 	                   		"player_detection_risk_add_movement_speed_2",
-							"player_run_dodge_chance",
-							"player_on_zipline_dodge_chance"
+							"player_run_dodge_chance"
 						},
 						cost = self.costs.hightierpro
 					}
@@ -2052,19 +2068,21 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_passive_health_multiplier_1",
-					"player_passive_health_multiplier_2"
+					"player_passive_health_multiplier_2",
+					"player_passive_dodge_chance_1"
 				},
 				cost = 200,
 				icon_xy = {0, 0},
 				name_id = "menu_deck1_1",
-				desc_id = "menu_deck2_1_desc_sc"
+				desc_id = "menu_deck1_1_desc_sc"
 			},
 			deck2,
 			{
 				upgrades = {
 					"team_passive_stamina_multiplier_1",
+					"team_passive_stamina_multiplier_2",
 					"player_passive_intimidate_range_mul",
-					"player_passive_dodge_chance_1"
+					"player_passive_dodge_chance_2"
 				},
 				cost = 400,
 				icon_xy = {2, 0},
@@ -2087,7 +2105,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_tier_armor_multiplier_1",
-					"player_passive_dodge_chance_2"
+					"player_passive_dodge_chance_3"
 				},
 				cost = 2400,
 				icon_xy = {6, 0},
@@ -2211,9 +2229,10 @@ function SkillTreeTweakData:init(tweak_data)
 				upgrades = {
 					"player_tier_armor_multiplier_5",
 					"bodybags_bag_quantity",
-					"player_level_2_dodge_addend_1",
-					"player_level_3_dodge_addend_1",
-					"player_level_4_dodge_addend_1"
+					--"player_level_2_dodge_addend_1",
+					--"player_level_3_dodge_addend_1",
+					--"player_level_4_dodge_addend_1"
+					"player_passive_dodge_chance_2"
 				},
 				cost = 1000,
 				icon_xy = {0, 2},
@@ -2224,9 +2243,13 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_perk_armor_regen_timer_multiplier_1",
-					"player_level_2_dodge_addend_2",
-					"player_level_3_dodge_addend_2",
-					"player_level_4_dodge_addend_2"
+					--"player_level_2_dodge_addend_2",
+					--"player_level_3_dodge_addend_2",
+					--"player_level_4_dodge_addend_2"
+					"player_level_2_armor_deflection_addend",
+					"player_level_3_armor_deflection_addend",
+					"player_level_4_armor_deflection_addend",
+					"player_passive_dodge_chance_3"
 				},
 				cost = 2400,
 				icon_xy = {6, 1},
@@ -2340,6 +2363,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_store_temp_health_2",
+					"player_temp_health_dodge_addend",
 					"player_corpse_dispose_amount_2"
 				},
 				cost = 1000,
@@ -2397,7 +2421,9 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
+					"player_close_contact_dodge_addend",
 					"player_killshot_regen_armor_bonus",
+					"player_killshot_regen_dodge_bonus",
 					--"player_level_2_dodge_addend_1",
 					--"player_level_3_dodge_addend_1",
 					--"player_level_4_dodge_addend_1"
@@ -2532,7 +2558,8 @@ function SkillTreeTweakData:init(tweak_data)
 			category = "defensive",
 			{
 				upgrades = {
-					"player_damage_dampener_close_contact_1"
+					"player_damage_dampener_close_contact_1",
+					"player_close_contact_dodge_addend",
 				},
 				cost = 200,
 				icon_xy = {3, 4},
@@ -2671,6 +2698,7 @@ function SkillTreeTweakData:init(tweak_data)
 				"buildup_meter_pacify_2",
 				"buildup_meter_hurt_decay_mod_1",
 				"buildup_meter_hurt_decay_mod_2",
+				"buildup_meter_hurt_decay_mod_3",
 			},
 			texture_bundle_folder = "sc",
 			icon_xy = {0, 3}
@@ -3619,6 +3647,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"temporary_chico_injector_3",
+					"player_chico_injector_dodge_addend",
 					"player_chico_preferred_target"
 				},
 				cost = 1000,
@@ -3709,6 +3738,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_sicario_multiplier",
+					"player_smoke_screen_ally_dodge_bonus",
 					"player_passive_loot_drop_multiplier_1"
 				},
 				cost = 4000,
@@ -3751,7 +3781,8 @@ function SkillTreeTweakData:init(tweak_data)
 				desc_id = "menu_deck19_3_desc_sc",
 				name_id = "menu_deck19_3",
 				upgrades = {
-					"player_damage_control_cooldown_drain_1"
+					"player_damage_control_cooldown_drain_1",
+					"player_passive_dodge_chance_1"
 				},
 				icon_xy = {
 					1,

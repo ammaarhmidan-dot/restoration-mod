@@ -2745,7 +2745,7 @@ function PlayerInventoryGui:_update_info_deployable(name, slot)
 		if deployable_id == "doctor_bag" then
 			deployable_uses = tweak_data.upgrades.doctor_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "amount_increase") or 0)
 		elseif deployable_id == "ammo_bag" then
-			deployable_uses = tweak_data.upgrades.ammo_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "ammo_increase") or 0)
+			deployable_uses = (tweak_data.upgrades.ammo_bag_base + (managers.player:equiptment_upgrade_value(deployable_id, "ammo_increase") or 0)) * 100 .. "%"
 		elseif deployable_id == "trip_mine" then
 			amount_2 = (equipment_data.quantity[2] or 1) + (managers.player:equiptment_upgrade_value("shape_charge", "quantity") or 0)
 			pickup_low = equipment_data.pickup_low or pickup_low
@@ -2762,11 +2762,7 @@ function PlayerInventoryGui:_update_info_deployable(name, slot)
 		end
 
 		if deployable_id == "sentry_gun" then
-			local ammo_cost = { --SentryGunBase isn't loaded outside of gameplay so I gotta dupe the cost table here, maybe I'll move it to tweak_data
-				0.4,
-				0.35,
-				0.3
-			}
+			local ammo_cost = tweak_data.upgrades.sentry_gun_ammo_cost
 			local cost_reduction = managers.player:has_category_upgrade(deployable_id, "cost_reduction") and managers.player:equiptment_upgrade_value(deployable_id, "cost_reduction") or 1
 			deployable_uses = ammo_cost[cost_reduction] * 100 .. "%"
 		end
